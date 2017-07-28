@@ -1,12 +1,25 @@
 package katzpipko.com.story;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
+import katzpipko.com.story.Model.Model;
+
+import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -19,8 +32,13 @@ import android.view.ViewGroup;
  */
 public class EditProfile extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
+    private ImageView imageView;
+    private TextView email;
+    private EditText firstName;
+    private EditText lastName;
+    private Bitmap imageBitmap;
 
+    private OnFragmentInteractionListener mListener;
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
@@ -43,14 +61,43 @@ public class EditProfile extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-   
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_profile, container, false);
+        View v = inflater.inflate(R.layout.fragment_edit_profile, container, false);
+        email = (TextView) v.findViewById(R.id.viewEmail);
+        email.setText(Model.instace.getUserData().getEmail());
+
+        firstName = (EditText) v.findViewById(R.id.editFirstName);
+        firstName.setText(Model.instace.getUserData().getFirstName());
+
+        lastName = (EditText) v.findViewById(R.id.editLastName);
+        lastName.setText(Model.instace.getUserData().getLastName());
+
+        imageView = (ImageView) v.findViewById(R.id.editProfilePic);
+
+        Picasso.with(v.getContext()).load(Model.instace.getUserData().getProfileImage()).into(imageView);
+
+
+
+
+        //Upload Image
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("TAG","Clicked Upload Image");
+                dispatchTakePictureIntent();
+            }
+        });
+
+
+        
+        return  v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -77,6 +124,27 @@ public class EditProfile extends Fragment {
         mListener = null;
     }
 
+
+
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            imageBitmap = (Bitmap) extras.get("data");
+            imageView.setImageBitmap(imageBitmap);
+        }
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

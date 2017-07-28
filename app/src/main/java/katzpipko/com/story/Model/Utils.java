@@ -1,10 +1,8 @@
 package katzpipko.com.story.Model;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.provider.MediaStore;
+
 
 /**
  * Created by User on 2017-07-26.
@@ -30,6 +28,10 @@ public class Utils {
 
 
     }
+
+
+
+
 
 
 

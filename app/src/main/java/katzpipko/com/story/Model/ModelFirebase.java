@@ -13,6 +13,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -47,6 +48,8 @@ public class ModelFirebase {
 
     }
 
+
+
     public void Login(String email, String password, final CallbackLoginInteface callbackLoginInteface)
     {
 
@@ -54,18 +57,32 @@ public class ModelFirebase {
              @Override
              public void onComplete(@NonNull Task<AuthResult> task) {
 
+                 Model.UID = task.getResult().getUser().getUid();
+
                  if (task.isSuccessful()) {
 
-                     Log.d("TAG","Success");
-                     user=mAuth.getCurrentUser();
-                     Model.UID=user.getUid();
-                     Log.d("TAG",Model.instace.UID);
-                     callbackLoginInteface.OnComplete();
+                     GetUserProfileByUid(task.getResult().getUser().getUid(), new CallBackGeneric() {
+                         @Override
+                         public void OnComplete(Object res) {
+                             callbackLoginInteface.OnComplete();
+                         }
+
+                         @Override
+                         public void OnError(Object res) {
+
+                             Log.d("TAG","No Profile");
+                             Model.instace.Logout();
+                             callbackLoginInteface.OnError();
+
+                         }
+                     });
+
 
                  }
                  else
                  {
                      Log.d("TAG","Error");
+                     Model.instace.Logout();
                      callbackLoginInteface.OnError();
 
                  }
@@ -74,10 +91,39 @@ public class ModelFirebase {
 
     }
 
+    public void Register(User user,String password, final CallbackRegisterInteface callbackRegisterInteface)
+    {
 
-    public void SaveImage(Bitmap imageBmp, String name, final Model.SaveImageListener listener){
+        mAuth.createUserWithEmailAndPassword(user.getEmail(), password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                if (task.isSuccessful()) {
+
+                    Log.d("TAG","Register Success");
+                    Model.UID = task.getResult().getUser().getUid();
+                    callbackRegisterInteface.OnComplete(task.getResult().getUser());
+                }
+                else {
+                //wait
+
+                   String exception =  task.getException().getLocalizedMessage();
+                    callbackRegisterInteface.OnError(exception);
+
+                }
+            }
+
+        });
+
+
+     }
+
+
+    public void saveImage(final Bitmap imageBmp, final String name, final String pathLocation,final Model.SaveImageListener listener) {
+
+
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference imagesRef = storage.getReference().child("images").child(name);
+        StorageReference imagesRef = storage.getReference().child(pathLocation).child(name);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         imageBmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
@@ -94,19 +140,61 @@ public class ModelFirebase {
                 listener.complete(downloadUrl.toString());
             }
         });
+
     }
 
-    public interface CallbackLoginInteface
+
+    public void GetUserProfileByUid(String uid,final ModelFirebase.CallBackGeneric callBackGeneric)
+
     {
-        public void OnComplete();
-        public void  OnError();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("user");
+
+        myRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user =  dataSnapshot.getValue(User.class);
+                Model.instace.setUserData(user);
+                callBackGeneric.OnComplete(true);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+                callBackGeneric.OnError(false);
+            }
+        });
+    }
+
+
+
+
+    public void UpdateUserProfile(User user,final ModelFirebase.CallBackGeneric callBackGeneric)
+    {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("user");
+
+
+        myRef.child(user.getUid()).setValue(user);
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                callBackGeneric.OnComplete(true);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callBackGeneric.OnError(false);
+            }
+        });
+
     }
 
 
     public void AddStory(Story story, final ModelFirebase.CallBackGeneric callBackGeneric)
     {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("students");
+        DatabaseReference myRef = database.getReference("story");
 
 
         myRef.child(story.uid).child(story.storyID).setValue(story);
@@ -123,6 +211,19 @@ public class ModelFirebase {
         });
     }
 
+
+    public interface CallbackLoginInteface
+    {
+        public void OnComplete();
+        public void  OnError();
+    }
+
+
+    public interface CallbackRegisterInteface
+    {
+        public void OnComplete(FirebaseUser currentUser);
+        public void  OnError(String exception);
+    }
 
     public interface CallBackGeneric
     {

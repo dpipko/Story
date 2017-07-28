@@ -12,8 +12,25 @@ public class Model {
     public final static Model instace = new Model();
     private ModelFirebase modelFirebase;
     public   Utils utils;
-    public static  String UID = "6wiLf3wWksMYRx3hVmWorGKJbBt1";
+    public static String UID = "";
     private  Integer StaticCounter = 1;
+
+    public User getUserData() {
+        return userData;
+    }
+
+    private User userData;
+
+    public void setUserData(User userData) {
+        this.userData = userData;
+    }
+
+
+
+
+
+
+
 
     public Model()
     {
@@ -26,7 +43,11 @@ public class Model {
          modelFirebase.Login(email,password,callbackLoginInteface);
     }
 
+    public void Register(User user, String password, final ModelFirebase.CallbackRegisterInteface callbackRegisterInteface)
 
+    {
+        modelFirebase.Register(user,password,callbackRegisterInteface);
+    }
 
     public void  AddStory(Story story, final ModelFirebase.CallBackGeneric callBackGeneric)
     {
@@ -51,11 +72,25 @@ public class Model {
     }
 
     public void saveImage(final Bitmap imageBmp, final String name, final SaveImageListener listener) {
-        modelFirebase.SaveImage(imageBmp, name, new SaveImageListener() {
+
+        saveImage(imageBmp,name,"images",listener);
+
+    }
+
+
+
+    public void UpdateUserProfile(User user,final ModelFirebase.CallBackGeneric callBackGeneric)
+    {
+        modelFirebase.UpdateUserProfile(user,callBackGeneric);
+    }
+
+
+    public void saveImage(final Bitmap imageBmp, final String name, final String pathLocation,final SaveImageListener listener) {
+        modelFirebase.saveImage(imageBmp, name,pathLocation, new SaveImageListener() {
             @Override
             public void complete(String url) {
                 //String fileName = URLUtil.guessFileName(url, null, null);
-               // saveImageToFile(imageBmp,fileName);
+                // saveImageToFile(imageBmp,fileName);
                 listener.complete(url);
             }
 
@@ -67,6 +102,7 @@ public class Model {
 
 
     }
+
 
 
     public interface GetImageListener{

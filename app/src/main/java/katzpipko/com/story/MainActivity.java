@@ -20,6 +20,7 @@ public class MainActivity extends Activity {
      EditText email;
     EditText password;
     ProgressBar mainProgress;
+    Button registerButton;
     private  View _v;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,7 @@ public class MainActivity extends Activity {
           email = (EditText) findViewById(R.id.mainEmail);
           password = (EditText) findViewById(R.id.mainPassword);
         mainProgress = (ProgressBar) findViewById(R.id.mainProgress);
-        Button registerButton = (Button)this.findViewById(R.id.mainRegister);
+         registerButton = (Button)this.findViewById(R.id.mainRegister);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,14 +39,15 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             }
         });
-        Button loginButton = (Button)this.findViewById(R.id.mainLoginBtn);
+        final Button loginButton = (Button)this.findViewById(R.id.mainLoginBtn);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 _v=v;
                 mainProgress.setVisibility(View.VISIBLE);
-
+                loginButton.setVisibility(View.GONE);
+                registerButton.setVisibility(View.GONE);
 
 
 
@@ -56,7 +58,8 @@ public class MainActivity extends Activity {
                     public void OnComplete() {
                         Log.d("TAG","On Complete CallBack");
                         mainProgress.setVisibility(View.GONE);
-
+                        loginButton.setVisibility(View.VISIBLE);
+                        registerButton.setVisibility(View.GONE);
                         Intent intent = new Intent(_v.getContext(), MainStory.class);
                         startActivity(intent);
                         finish();
@@ -68,7 +71,8 @@ public class MainActivity extends Activity {
                         Log.d("TAG","On Error CallBack");
 
                         mainProgress.setVisibility(View.GONE);
-
+                        loginButton.setVisibility(View.VISIBLE);
+                        registerButton.setVisibility(View.GONE);
                         AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(_v.getContext());
                         dlgAlert.setMessage("Username or Password are wrong");
                         dlgAlert.setTitle("System Alert");

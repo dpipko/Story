@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,6 +89,10 @@ public class MainStory extends Activity implements ActionBar.TabListener, Create
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main_story, menu);
+
+        String logOutString= "Logout (" + Model.instace.getUserData().getFirstName() + ")";
+        menu.getItem(0).setTitle(logOutString);
+
         return true;
     }
 
@@ -139,10 +144,14 @@ public class MainStory extends Activity implements ActionBar.TabListener, Create
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
+
         /**
          * The fragment argument representing the section number for this
          * fragment.
          */
+
+
+
         private static final String ARG_SECTION_NUMBER = "section_number";
 
         public PlaceholderFragment() {
@@ -157,6 +166,10 @@ public class MainStory extends Activity implements ActionBar.TabListener, Create
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
+
+
+
+
             return fragment;
         }
 
@@ -166,6 +179,8 @@ public class MainStory extends Activity implements ActionBar.TabListener, Create
             View rootView = inflater.inflate(R.layout.fragment_main_story, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+
+
             return rootView;
         }
     }

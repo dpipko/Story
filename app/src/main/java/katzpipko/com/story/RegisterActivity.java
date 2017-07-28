@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import katzpipko.com.story.Model.Model;
+
 import static katzpipko.com.story.CreateStory.REQUEST_IMAGE_CAPTURE;
 
 public class RegisterActivity extends Activity {
@@ -50,10 +52,54 @@ public class RegisterActivity extends Activity {
             }
         });
 
+
+        //Register Button
         Button registerButton = (Button) findViewById(R.id.registerRegisterBtn);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                StringBuilder sb = new StringBuilder();
+
+
+                if (imageBitmap==null)
+                {
+                    sb.append("Please enter picture\n");
+
+
+                }
+
+                if (!email.getText().toString().contains("@") || !email.getText().toString().contains("."))
+                {
+                    sb.append("Email is not valid\n");
+                }
+
+                if (password.getText().toString().length()<6){
+                    sb.append("Password must be at least 6 long\n");
+                }
+
+                if (!(password.getText().toString().equals(passwordVerify.getText().toString())))
+                {
+                    sb.append("password not match\n");
+
+                }
+
+
+                if (lastName.getText().toString().length()<2 || firstName.getText().toString().length()<2){
+
+                    sb.append("Please enter valid full name\n");
+                }
+
+                if (sb.length()>0)
+                {
+                    Model.instace.utils.Alert(v.getContext(),sb.toString(),"Error");
+
+                }
+                else
+                {
+                    Model.instace.utils.Alert(v.getContext(),"OK","Success");
+
+                }
+
 
             }
         });

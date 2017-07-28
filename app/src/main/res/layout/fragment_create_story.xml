@@ -1,0 +1,69 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="katzpipko.com.story.CreateStory">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+                    <ImageView
+                        android:id="@+id/createStoryImage"
+                        android:layout_width="fill_parent"
+                        android:layout_height="200dp"
+                        android:src="@drawable/wp_upload_bits"
+                        android:textAlignment="center"
+                        />
+
+
+            </LinearLayout>
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="match_parent"
+
+            android:layout_height="200dp" android:id="@+id/createStoryTitle" android:textAlignment="center"  android:hint="Enter Text" />
+
+
+
+    </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:gravity="bottom|center">
+
+        <Button
+            android:id="@+id/createStorySaveBtn"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp" android:text="Create Story" />
+
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/creatStoryProgress"  android:visibility="gone"></ProgressBar>
+
+        </LinearLayout>
+
+</LinearLayout>
+</FrameLayout>
+

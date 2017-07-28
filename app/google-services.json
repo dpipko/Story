@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "820269124087",
+    "firebase_url": "https://story-4702f.firebaseio.com",
+    "project_id": "story-4702f",
+    "storage_bucket": "story-4702f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820269124087:android:c8287aa77e91eb86",
+        "android_client_info": {
+          "package_name": "katzpipko.com.story"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820269124087-0dcbsoksamss3a7pic3338v225n203ic.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "katzpipko.com.story",
+            "certificate_hash": "9517706c5d2c7bc7ecfe97a16076c80f6b4f609e"
+          }
+        },
+        {
+          "client_id": "820269124087-rdsojkuk6hjftj4tvre81r1ir85to7td.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABgF95K_XR0nYa2o6il-i-YJSMmjO1fDI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820269124087-rdsojkuk6hjftj4tvre81r1ir85to7td.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

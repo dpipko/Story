@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@color/gray" tools:context="katzpipko.com.story.MainActivity">
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:layout_editor_absoluteY="8dp"
+    tools:layout_editor_absoluteX="8dp">
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/mainProgress"   android:visibility="gone"></ProgressBar>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:src="@drawable/ic_pan_tool_black_24dp" />
+        </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:layout_marginTop="0dp"
+            android:text="Email"/>
+
+        <EditText
+            android:id="@+id/mainEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:layout_marginTop="0dp"
+            android:text="b@b.com"/>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:layout_marginTop="0dp"
+            android:text="Password"/>
+
+        <EditText
+
+            android:id="@+id/mainPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:layout_marginTop="0dp" android:inputType="textPassword"
+            android:text="123456"/>
+    </LinearLayout>
+
+
+
+    <LinearLayout android:layout_width="match_parent" android:gravity="center" android:layout_height="match_parent">
+
+
+        <Button
+            android:id="@+id/mainLoginBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|left"
+            android:text="Login"/>
+
+
+        <Button
+            android:id="@+id/mainRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|right"
+            android:text="Register"/>
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>
+
+
+
+

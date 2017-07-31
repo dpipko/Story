@@ -57,9 +57,11 @@ public class ModelFirebase {
              @Override
              public void onComplete(@NonNull Task<AuthResult> task) {
 
-                 Model.UID = task.getResult().getUser().getUid();
+                Model.UID="";
 
                  if (task.isSuccessful()) {
+
+                     Model.UID = task.getResult().getUser().getUid();
 
                      GetUserProfileByUid(task.getResult().getUser().getUid(), new CallBackGeneric() {
                          @Override

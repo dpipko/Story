@@ -58,7 +58,7 @@
                 android:textSize="30dp"
                 android:inputType="textEmailAddress"
                 android:layout_marginTop="0dp"
-                android:text="a@a.com"
+                android:text=""
                />
 
 
@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="30dp"
                 android:layout_marginTop="0dp" android:inputType="text"
-                android:text="Daniel"
+                android:text=""
                 />
         </LinearLayout>
 
@@ -111,7 +111,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="30dp"
-                android:text="Pipko"
+                android:text=""
                 android:layout_marginTop="0dp" android:inputType="text"
                 />
         </LinearLayout>
@@ -136,7 +136,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="30dp"
-                android:text="123456"
+                android:text=""
                 android:layout_marginTop="0dp" android:inputType="textPassword"
                 />
         </LinearLayout>
@@ -154,7 +154,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="30dp"
                 android:layout_marginTop="0dp"
-                android:text="Enter password again"/>
+                android:text="Password Hint"/>
 
             <EditText
 

@@ -22,8 +22,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import katzpipko.com.story.Model.Model;
+import katzpipko.com.story.dummy.DummyContent;
 
-public class MainStory extends Activity implements ActionBar.TabListener, CreateStory.OnFragmentInteractionListener, EditProfile.OnFragmentInteractionListener {
+public class MainStory extends Activity implements ActionBar.TabListener, CreateStory.OnFragmentInteractionListener, EditProfile.OnFragmentInteractionListener,StoryFragment.OnListFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -90,7 +91,7 @@ public class MainStory extends Activity implements ActionBar.TabListener, Create
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main_story, menu);
 
-        String logOutString= "Logout (" + Model.instace.getUserData().getFirstName() + ")";
+        String logOutString= "Logout (" + Model.instace.getUserData().getFullName() + ")";
         menu.getItem(0).setTitle(logOutString);
 
         return true;
@@ -139,6 +140,14 @@ public class MainStory extends Activity implements ActionBar.TabListener, Create
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+
+
+
+    }
+
 
     /**
      * A placeholder fragment containing a simple view.
@@ -201,13 +210,25 @@ public class MainStory extends Activity implements ActionBar.TabListener, Create
             // Return a PlaceholderFragment (defined as a static inner class below).
 
             switch (position) {
+
                 case 0:
-                    return  CreateStory.newInstance();
+                    return StoryFragment.newInstance(1);
+
+
+                default:
                 case 1:
-                    return EditProfile.newInstance("1","2");
+                    return CreateStory.newInstance();
+
+                case 2:
+                    return EditProfile.newInstance(new EditProfile.ReloadInterface() {
+                        @Override
+                        public void OnReload() {
+                            finish();
+                            startActivity(getIntent());
+                        }
+                    });
 
             }
-            return PlaceholderFragment.newInstance(position + 1);
         }
 
         @Override
@@ -220,11 +241,14 @@ public class MainStory extends Activity implements ActionBar.TabListener, Create
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Create Story";
+                    return "Stories";
+
                 case 1:
-                    return "Edit Profile";
+                    return "Create Story";
+
                 case 2:
-                    return "SECTION 3";
+                    return "Edit Profile";
+
             }
             return null;
         }

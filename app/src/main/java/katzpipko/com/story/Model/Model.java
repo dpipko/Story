@@ -11,7 +11,7 @@ import android.webkit.URLUtil;
 public class Model {
     public final static Model instace = new Model();
     private ModelFirebase modelFirebase;
-    public   Utils utils;
+    public Utils utils;
     public static String UID = "";
     private  Integer StaticCounter = 1;
 
@@ -23,14 +23,8 @@ public class Model {
 
     public void setUserData(User userData) {
         this.userData = userData;
+        Model.UID = userData.getUid();
     }
-
-
-
-
-
-
-
 
     public Model()
     {

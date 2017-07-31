@@ -52,6 +52,7 @@
             android:layout_height="wrap_content"
             android:textSize="30dp"
             android:inputType="textEmailAddress"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="0dp"
             android:text=""
             />
@@ -118,6 +119,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center"
             android:text="Edit"/>
+
+
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/editProgress"  android:visibility="gone"></ProgressBar>
 
 
     </LinearLayout>

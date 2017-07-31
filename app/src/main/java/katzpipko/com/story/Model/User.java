@@ -13,6 +13,37 @@ public class User {
     private String profileImage;
     private long createdTimeStamp;
 
+
+    public String getFullName()
+    {
+        return firstName + " " + lastName;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if(getClass() != obj.getClass()) return false;
+        User u = (User)obj;
+
+       if ( u.uid.equals(uid) && u.email.equals(email) && u.firstName.equals(firstName) && u.lastName.equals(lastName) && u.profileImage.equals(profileImage) && u.createdTimeStamp==createdTimeStamp) return  true;
+        return  false;
+
+    }
+
+    public User (User user)
+    {
+        this.setUid(user.getUid());
+        this.setEmail(user.getEmail());
+        this.setFirstName(user.getFirstName());
+        this.setLastName(user.getLastName());
+        this.setProfileImage(user.getProfileImage());
+        this.setCreatedTimeStamp(user.getCreatedTimeStamp());
+        this.setUid(user.getUid());
+
+
+    }
+
+
     public String getUid() {
         return uid;
     }

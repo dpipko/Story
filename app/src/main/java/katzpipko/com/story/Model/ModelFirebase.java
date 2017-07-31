@@ -168,9 +168,6 @@ public class ModelFirebase {
         });
     }
 
-
-
-
     public void UpdateUserProfile(User user,final ModelFirebase.CallBackGeneric callBackGeneric)
     {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -213,6 +210,46 @@ public class ModelFirebase {
         });
     }
 
+
+    public void  GetAllSortied(CallBackAllStoriesInterface callBackAllStoriesInterface)
+    {
+
+    }
+
+    public void GetAllStoreisAndObserve(final GetAllStoriesAndObserveCallback callback) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("story");
+        ValueEventListener listener = myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<Story> list = new LinkedList<Story>();
+                for (DataSnapshot snap : dataSnapshot.getChildren())
+                    for (DataSnapshot snapChild : snap.getChildren()) {
+                     Story story = snapChild.getValue(Story.class);
+                     list.add(story);
+                }
+                callback.onComplete(list);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onCancel();
+            }
+        });
+    }
+
+
+    public interface GetAllStoriesAndObserveCallback {
+        void onComplete(List<Story> list);
+        void onCancel();
+    }
+
+
+
+    public interface CallBackAllStoriesInterface
+    {
+        public void OnChanged();
+    }
 
     public interface CallbackLoginInteface
     {

@@ -1,16 +1,19 @@
 package katzpipko.com.story.Model;
 
 import android.graphics.Bitmap;
-import android.support.v4.app.NavUtils;
-import android.webkit.URLUtil;
+import android.util.Log;
+
+import java.util.List;
 
 /**
  * Created by User on 2017-07-23.
  */
 
-public class Model {
+    public class Model {
     public final static Model instace = new Model();
     private ModelFirebase modelFirebase;
+    public ModelMem modelMem;
+
     public Utils utils;
     public static String UID = "";
     private  Integer StaticCounter = 1;
@@ -29,10 +32,16 @@ public class Model {
     public Model()
     {
         modelFirebase = new ModelFirebase();
+        modelMem =  new ModelMem();
         utils = new Utils();
+
+
     }
 
-    public void Login(String email, String password, final ModelFirebase.CallbackLoginInteface callbackLoginInteface)
+
+
+
+        public void Login(String email, String password, final ModelFirebase.CallbackLoginInteface callbackLoginInteface)
     {
          modelFirebase.Login(email,password,callbackLoginInteface);
     }
@@ -60,18 +69,6 @@ public class Model {
      return this.UID + "_" +   System.currentTimeMillis()/1000 + "_" + this.StaticCounter++;
     }
 
-    public interface SaveImageListener {
-        void complete(String url);
-        void fail();
-    }
-
-    public void saveImage(final Bitmap imageBmp, final String name, final SaveImageListener listener) {
-
-        saveImage(imageBmp,name,"images",listener);
-
-    }
-
-
 
     public void UpdateUserProfile(User user,final ModelFirebase.CallBackGeneric callBackGeneric)
     {
@@ -79,6 +76,33 @@ public class Model {
     }
 
 
+    public void GetAllStoreisAndObserve(final ModelFirebase.CallBackGeneric callBackGeneric)
+    {
+        modelFirebase.GetAllStoreisAndObserve(new ModelFirebase.GetAllStoriesAndObserveCallback() {
+            @Override
+            public void onComplete(List<Story> list) {
+
+                modelMem.SetNewStoryList(list,10);
+                callBackGeneric.OnComplete(true);
+            }
+
+            @Override
+            public void onCancel() {
+                callBackGeneric.OnError(false);
+
+            }
+        });
+
+
+    }
+
+
+
+    public void saveImage(final Bitmap imageBmp, final String name, final SaveImageListener listener) {
+
+        saveImage(imageBmp,name,"images",listener);
+
+    }
     public void saveImage(final Bitmap imageBmp, final String name, final String pathLocation,final SaveImageListener listener) {
         modelFirebase.saveImage(imageBmp, name,pathLocation, new SaveImageListener() {
             @Override
@@ -98,13 +122,11 @@ public class Model {
     }
 
 
-
-    public interface GetImageListener{
-        void onSuccess(Bitmap image);
-        void onFail();
+    //-------------------Interface---------
+    public interface SaveImageListener {
+        void complete(String url);
+        void fail();
     }
-
-
 
 
 }

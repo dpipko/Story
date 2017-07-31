@@ -10,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import katzpipko.com.story.Model.Model;
+import katzpipko.com.story.Model.ModelMem;
+import katzpipko.com.story.Model.Story;
 import katzpipko.com.story.dummy.DummyContent;
 import katzpipko.com.story.dummy.DummyContent.DummyItem;
 
@@ -28,11 +31,12 @@ public class StoryFragment extends Fragment {
 
     }
 
+   public RecyclerView recyclerView;
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
+    public OnListFragmentInteractionListener mListener;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -60,6 +64,12 @@ public class StoryFragment extends Fragment {
         }
     }
 
+    public void Refresh()
+    {
+        recyclerView.invalidate();
+        recyclerView.setAdapter(new MyStoryItemRecyclerViewAdapter(Model.instace.modelMem.getAllStories(), mListener));
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,13 +78,13 @@ public class StoryFragment extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+             recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyStoryItemRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new MyStoryItemRecyclerViewAdapter(Model.instace.modelMem.getAllStories(), mListener));
         }
         return view;
     }
@@ -109,6 +119,6 @@ public class StoryFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Story item);
     }
 }

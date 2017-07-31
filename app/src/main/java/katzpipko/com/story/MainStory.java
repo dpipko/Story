@@ -21,7 +21,12 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import java.util.List;
+
 import katzpipko.com.story.Model.Model;
+import katzpipko.com.story.Model.ModelFirebase;
+import katzpipko.com.story.Model.Story;
+import katzpipko.com.story.Model.Utils;
 import katzpipko.com.story.dummy.DummyContent;
 
 public class MainStory extends Activity implements ActionBar.TabListener, CreateStory.OnFragmentInteractionListener, EditProfile.OnFragmentInteractionListener,StoryFragment.OnListFragmentInteractionListener {
@@ -35,6 +40,8 @@ public class MainStory extends Activity implements ActionBar.TabListener, Create
      * {@link android.support.v13.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
+
+    private static StoryFragment storyFragmentInstance = null;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -81,8 +88,23 @@ public class MainStory extends Activity implements ActionBar.TabListener, Create
         }
 
 
+        Model.instace.GetAllStoreisAndObserve(new ModelFirebase.CallBackGeneric() {
+            @Override
+            public void OnComplete(Object res) {
+                if (storyFragmentInstance != null) {
+                    storyFragmentInstance.Refresh();
+                }
+            }
+                @Override
+                public void OnError (Object res){
+
+                    Log.d("TAG","Error AllStoriesObeserer");
+                    Model.instace.utils.Alert(getBaseContext(), "Error Found");
+
+                }
 
 
+        });
     }
 
 
@@ -142,9 +164,7 @@ public class MainStory extends Activity implements ActionBar.TabListener, Create
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
-
-
+    public void onListFragmentInteraction(Story item) {
 
     }
 
@@ -190,6 +210,7 @@ public class MainStory extends Activity implements ActionBar.TabListener, Create
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
 
 
+
             return rootView;
         }
     }
@@ -209,15 +230,17 @@ public class MainStory extends Activity implements ActionBar.TabListener, Create
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
 
+
             switch (position) {
 
                 case 0:
-                    return StoryFragment.newInstance(1);
-
+                    storyFragmentInstance = StoryFragment.newInstance(1);
+                    return storyFragmentInstance;
 
                 default:
                 case 1:
-                    return CreateStory.newInstance();
+                   return  CreateStory.newInstance();
+
 
                 case 2:
                     return EditProfile.newInstance(new EditProfile.ReloadInterface() {

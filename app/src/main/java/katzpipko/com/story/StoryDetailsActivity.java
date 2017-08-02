@@ -18,6 +18,7 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 import katzpipko.com.story.Model.Model;
 import katzpipko.com.story.Model.ModelFirebase;
@@ -65,8 +66,7 @@ public class StoryDetailsActivity extends Activity  {
                 sDuserFullName.setText( userCreator.getFullName());
                 sDstoryTitle.setText( currentStory.title);
 
-
-                Timestamp st = new Timestamp(currentStory.timestamp);
+                Timestamp st = new Timestamp(currentStory.timestamp*1000);
                 java.util.Date dt = new java.util.Date(st.getTime());
                 DateFormat df = DateFormat.getTimeInstance(DateFormat.SHORT);
                 sDstoryCreatedTime.setText(df.format(dt));
@@ -81,7 +81,7 @@ public class StoryDetailsActivity extends Activity  {
         });
 
 
-        Log.d("TAB",currentStory.storyID);
+        Log.d("TAG",currentStory.storyID);
 
 
 

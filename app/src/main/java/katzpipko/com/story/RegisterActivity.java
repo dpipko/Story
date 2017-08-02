@@ -1,7 +1,6 @@
 package katzpipko.com.story;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -17,9 +16,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import katzpipko.com.story.Model.Model;
 import katzpipko.com.story.Model.ModelFirebase;
-import katzpipko.com.story.Model.ModelSql;
 import katzpipko.com.story.Model.User;
-import katzpipko.com.story.Model.UserSql;
 
 import static katzpipko.com.story.CreateStory.REQUEST_IMAGE_CAPTURE;
 
@@ -71,7 +68,7 @@ public class RegisterActivity extends Activity {
                 currentView=v;
 
                 if (imageBitmap==null)
-                    sb.append("Please enter picture\n");
+                    sb.append("Please Enter Picture\n");
 
 
 

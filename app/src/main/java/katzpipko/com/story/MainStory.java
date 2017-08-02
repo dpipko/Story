@@ -14,20 +14,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-import java.util.List;
-
 import katzpipko.com.story.Model.Model;
 import katzpipko.com.story.Model.ModelFirebase;
 import katzpipko.com.story.Model.Story;
-import katzpipko.com.story.Model.Utils;
-import katzpipko.com.story.dummy.DummyContent;
 
 public class MainStory extends Activity implements ActionBar.TabListener, CreateStory.OnFragmentInteractionListener, EditProfile.OnFragmentInteractionListener,StoryFragment.OnListFragmentInteractionListener {
 
@@ -88,7 +83,7 @@ public class MainStory extends Activity implements ActionBar.TabListener, Create
         }
 
 
-        Model.instace.GetAllStoreisAndObserve(new ModelFirebase.CallBackGeneric() {
+        Model.instace.GetAllStoriesAndObserve(new ModelFirebase.CallBackGeneric() {
             @Override
             public void OnComplete(Object res) {
                 if (storyFragmentInstance != null) {
@@ -165,6 +160,12 @@ public class MainStory extends Activity implements ActionBar.TabListener, Create
 
     @Override
     public void onListFragmentInteraction(Story item) {
+
+        Log.d("TAB","Item Click - " + item.title);
+
+        Intent intent = new Intent(getBaseContext(), StoryDetailsActivity.class);
+        intent.putExtra("story",item);
+        startActivity(intent);
 
     }
 

@@ -1,9 +1,8 @@
-package katzpipko.com.story.Model;
+package katzpipko.com.story.Model.Sql;
 
  import android.content.Context;
  import android.database.sqlite.SQLiteDatabase;
  import android.database.sqlite.SQLiteOpenHelper;
-
 
 
 /**
@@ -11,7 +10,7 @@ package katzpipko.com.story.Model;
  */
 
 public class ModelSql extends SQLiteOpenHelper {
-    ModelSql(Context context) {
+    public ModelSql(Context context) {
         super(context, "database.db", null, 1);
     }
 

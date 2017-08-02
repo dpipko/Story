@@ -1,11 +1,10 @@
 package katzpipko.com.story.Model;
 import android.graphics.Bitmap;
 import android.util.Log;
-
 import com.google.firebase.auth.FirebaseUser;
-
 import java.util.List;
-
+import katzpipko.com.story.Model.Sql.ModelSql;
+import katzpipko.com.story.Model.Sql.UserSql;
 import katzpipko.com.story.MyApplication;
 
 /**
@@ -15,22 +14,12 @@ import katzpipko.com.story.MyApplication;
     public class Model {
     public final static Model instace = new Model();
     private ModelFirebase modelFirebase;
-    public ModelSql modelSql;
-    public ModelMem modelMem;
-
+    private ModelSql modelSql;
+    private ModelMem modelMem;
+    private User userData;
     public Utils utils;
     public static String UID = "";
     private  Integer StaticCounter = 1;
-
-    public User getUserData() {
-        return userData;
-    }
-    private User userData;
-
-    public void setUserData(User userData) {
-        this.userData = userData;
-        Model.UID = userData.getUid();
-    }
 
     public Model()
     {
@@ -40,6 +29,15 @@ import katzpipko.com.story.MyApplication;
         utils = new Utils();
     }
 
+
+    //---------------------------------User--------------------
+
+    public void GetUserProfileByUid(String uid,final ModelFirebase.CallBackGeneric callBackGeneric)
+    {
+        modelFirebase.GetUserProfileByUid(uid,callBackGeneric);
+    }
+
+
     public void Login(String email, String password, final ModelFirebase.CallbackLoginInteface callbackLoginInteface)
     {
          modelFirebase.Login(email, password, new ModelFirebase.CallbackLoginInteface() {
@@ -48,11 +46,9 @@ import katzpipko.com.story.MyApplication;
                  UserSql.UpserUser(modelSql.getWritableDatabase(),getUserData());
                  callbackLoginInteface.OnComplete();
              }
-
              @Override
              public void OnError() {
                  callbackLoginInteface.OnError();
-
              }
          });
     }
@@ -76,8 +72,6 @@ import katzpipko.com.story.MyApplication;
                             public void OnComplete(Object res) {
                                 Model.instace.setUserData(user);
                                 Log.d("TAG","Register + Upload Image + Update profile Sucess");
-                                //Update Local SQL
-                                UserSql.UpserUser(Model.instace.modelSql.getWritableDatabase(),user);
                                 callbackRegisterInteface.OnComplete(currentUser);//Success
                             }
 
@@ -106,15 +100,12 @@ import katzpipko.com.story.MyApplication;
         });
     }
 
-    public void  AddStory(Story story, final ModelFirebase.CallBackGeneric callBackGeneric)
-    {
-        modelFirebase.AddStory(story,callBackGeneric);
-    }
 
     public void Logout()
     {
         modelFirebase.user=null;
         UID= null;
+        UserSql.DeleteAllRows(modelSql.getWritableDatabase()); //Clear All User Data
     }
 
 
@@ -124,13 +115,42 @@ import katzpipko.com.story.MyApplication;
     }
 
 
-    public void UpdateUserProfile(User user,final ModelFirebase.CallBackGeneric callBackGeneric)
-    {
-        modelFirebase.UpdateUserProfile(user,callBackGeneric);
+
+    public User getUserData() {
+        return userData;
+    }
+    public void setUserData(User userData) {
+        this.userData = userData;
+        Model.UID = userData.getUid();
     }
 
 
-    public void GetAllStoreisAndObserve(final ModelFirebase.CallBackGeneric callBackGeneric)
+    public User CheckAndGetStoreUserData()
+    {
+       return UserSql.GetUser(modelSql.getReadableDatabase());
+    }
+
+    public void UpdateUserProfile(final User user,final ModelFirebase.CallBackGeneric callBackGeneric)
+    {
+        modelFirebase.UpdateUserProfile(user, new ModelFirebase.CallBackGeneric() {
+            @Override
+            public void OnComplete(Object res) {
+                //Update Local SQL
+                UserSql.UpserUser(Model.instace.modelSql.getWritableDatabase(),user);
+                callBackGeneric.OnComplete(res);
+            }
+
+            @Override
+            public void OnError(Object res) {
+            callBackGeneric.OnError(res);
+            }
+        });
+    }
+
+
+    //----------------------Story--------------------------
+
+    public void GetAllStoriesAndObserve(final ModelFirebase.CallBackGeneric callBackGeneric)
     {
         modelFirebase.GetAllStoreisAndObserve(new ModelFirebase.GetAllStoriesAndObserveCallback() {
             @Override
@@ -150,10 +170,25 @@ import katzpipko.com.story.MyApplication;
 
     }
 
+    public List<Story> GetAllStories()
+    {
+        return  modelMem.GetAllStories();
+    }
+
+    public void AddStory(Story story, final ModelFirebase.CallBackGeneric callBackGeneric)
+    {
+        modelFirebase.AddStory(story,callBackGeneric);
+    }
+
+
+    public void RemoveStory(Story story, final ModelFirebase.CallBackGeneric callBackGeneric)
+    {
+        modelFirebase.RemoveStory(story,callBackGeneric);
+    }
+    //-----------------Global-------------------------------
+
     public void saveImage(final Bitmap imageBmp, final String name, final SaveImageListener listener) {
-
-        saveImage(imageBmp,name,"images",listener);
-
+         saveImage(imageBmp,name,"images",listener);
     }
     public void saveImage(final Bitmap imageBmp, final String name, final String pathLocation,final SaveImageListener listener) {
         modelFirebase.saveImage(imageBmp, name,pathLocation, new SaveImageListener() {

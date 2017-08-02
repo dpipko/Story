@@ -16,6 +16,15 @@ public class Utils {
         public void OnAlertFinish();
     }
 
+
+
+    public interface ConfirmInterface
+    {
+        public void Yes();
+        public void No();
+
+    }
+
     public void Alert(Context context, String text)
     {
         Alert(context,text,"System Alert");
@@ -33,6 +42,46 @@ public class Utils {
         dlgAlert.create().show();
 
     }
+
+    public void ConfirmWithCallBack(Context context, String text, String title, final ConfirmInterface confirmInterface)
+    {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(true);
+        builder.setMessage(text);
+
+        builder.setTitle(title);
+
+
+        builder.setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        dialog.dismiss();
+                        confirmInterface.No();
+                    }
+                });
+
+
+        builder.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        dialog.dismiss();
+                   confirmInterface.Yes();
+                    }
+                });
+
+
+
+        AlertDialog alert = builder.create();
+        alert.show();
+
+
+    }
+
 
     public void AlertWithCallBack(Context context, String text, String title, final AlertInteface alertInteface)
     {

@@ -17,7 +17,7 @@ public class ModelMem {
     ModelMem() {
     }
 
-    public  List<Story> getAllStories(){
+    public  List<Story> GetAllStories(){
         return data;
     }
 

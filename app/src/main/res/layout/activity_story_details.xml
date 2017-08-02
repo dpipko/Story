@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="katzpipko.com.story.StoryDetailsActivity"
+    android:orientation="vertical"
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="4dp">
+
+
+
+            <ImageView
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:id="@+id/SDprofilePic"
+                android:layout_width="72dp"
+                 android:layout_centerHorizontal="true"
+                android:adjustViewBounds="false"
+                android:layout_height="72dp" />
+
+        <TextView
+            android:id="@+id/SDuserFullName"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:textSize="25dp"
+        android:text=""/>
+
+        <TextView
+            android:id="@+id/SDstoryCreatedTime"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20dp"
+            android:gravity="end|center_vertical"
+            android:text=""
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:background="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
+    </LinearLayout>
+
+
+
+    <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                tools:layout_editor_absoluteY="8dp"
+                                tools:layout_editor_absoluteX="0dp"
+                                android:orientation="vertical"
+                                >
+                               <TextView
+                                   android:textSize="30dp"
+
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:id="@+id/SDstoryTitle"
+                                   android:text=""
+                                   android:gravity="center"
+
+                                   />
+
+
+
+                                <ImageView
+                                    android:layout_gravity="center"
+                                    android:id="@+id/SDstoryImage"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:scaleType="centerCrop"
+                                    android:adjustViewBounds="true"
+                                    android:src="@drawable/ajax_loader"
+                                    />
+                            </LinearLayout>
+
+
+
+
+
+
+</LinearLayout>

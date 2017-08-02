@@ -11,12 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import katzpipko.com.story.Model.Model;
-import katzpipko.com.story.Model.ModelMem;
 import katzpipko.com.story.Model.Story;
-import katzpipko.com.story.dummy.DummyContent;
-import katzpipko.com.story.dummy.DummyContent.DummyItem;
-
-import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -67,7 +62,7 @@ public class StoryFragment extends Fragment {
     public void Refresh()
     {
         recyclerView.invalidate();
-        recyclerView.setAdapter(new MyStoryItemRecyclerViewAdapter(Model.instace.modelMem.getAllStories(), mListener));
+        recyclerView.setAdapter(new MyStoryItemRecyclerViewAdapter(Model.instace.GetAllStories(), mListener));
     }
 
     @Override
@@ -84,7 +79,7 @@ public class StoryFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyStoryItemRecyclerViewAdapter(Model.instace.modelMem.getAllStories(), mListener));
+            recyclerView.setAdapter(new MyStoryItemRecyclerViewAdapter(Model.instace.GetAllStories(), mListener));
         }
         return view;
     }

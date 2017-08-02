@@ -1,8 +1,10 @@
-package katzpipko.com.story.Model;
+package katzpipko.com.story.Model.Sql;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import katzpipko.com.story.Model.User;
 
 /**
  * Created by User on 2017-08-02.
@@ -47,7 +49,7 @@ public class UserSql {
        db.insert(USER_TABLE, USER_UID, values);
     }
 
-    static User getUser(SQLiteDatabase db)
+    public static User GetUser(SQLiteDatabase db)
     {
         Cursor cursor = db.query(USER_TABLE, null, null, null, null, null, null);
         if (cursor.getCount() ==0) return null;//No User yet

@@ -1,9 +1,12 @@
 package katzpipko.com.story.Model;
-
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.List;
+
+import katzpipko.com.story.MyApplication;
 
 /**
  * Created by User on 2017-07-23.
@@ -12,6 +15,7 @@ import java.util.List;
     public class Model {
     public final static Model instace = new Model();
     private ModelFirebase modelFirebase;
+    public ModelSql modelSql;
     public ModelMem modelMem;
 
     public Utils utils;
@@ -21,7 +25,6 @@ import java.util.List;
     public User getUserData() {
         return userData;
     }
-
     private User userData;
 
     public void setUserData(User userData) {
@@ -31,25 +34,76 @@ import java.util.List;
 
     public Model()
     {
-        modelFirebase = new ModelFirebase();
+        modelSql = new ModelSql(MyApplication.getMyContext());
         modelMem =  new ModelMem();
+        modelFirebase = new ModelFirebase();
         utils = new Utils();
-
-
     }
 
-
-
-
-        public void Login(String email, String password, final ModelFirebase.CallbackLoginInteface callbackLoginInteface)
+    public void Login(String email, String password, final ModelFirebase.CallbackLoginInteface callbackLoginInteface)
     {
-         modelFirebase.Login(email,password,callbackLoginInteface);
+         modelFirebase.Login(email, password, new ModelFirebase.CallbackLoginInteface() {
+             @Override
+             public void OnComplete() {
+                 UserSql.UpserUser(modelSql.getWritableDatabase(),getUserData());
+                 callbackLoginInteface.OnComplete();
+             }
+
+             @Override
+             public void OnError() {
+                 callbackLoginInteface.OnError();
+
+             }
+         });
     }
 
-    public void Register(User user, String password, final ModelFirebase.CallbackRegisterInteface callbackRegisterInteface)
-
+    public void Register(final User user, String password, final Bitmap imageBitmap, final ModelFirebase.CallbackRegisterInteface callbackRegisterInteface)
     {
-        modelFirebase.Register(user,password,callbackRegisterInteface);
+        modelFirebase.Register(user, password, new ModelFirebase.CallbackRegisterInteface() {
+            @Override
+            public void OnComplete(final FirebaseUser currentUser) {
+                Log.d("TAG","Success = " + currentUser.getUid());
+                String name = currentUser.getUid();
+                Model.instace.saveImage(imageBitmap, name, "profileImages", new Model.SaveImageListener() {
+                    @Override
+                    public void complete(String url) {
+
+                        user.setProfileImage(url);
+                        user.setUid(currentUser.getUid());
+
+                        Model.instace.UpdateUserProfile(user, new ModelFirebase.CallBackGeneric() {
+                            @Override
+                            public void OnComplete(Object res) {
+                                Model.instace.setUserData(user);
+                                Log.d("TAG","Register + Upload Image + Update profile Sucess");
+                                //Update Local SQL
+                                UserSql.UpserUser(Model.instace.modelSql.getWritableDatabase(),user);
+                                callbackRegisterInteface.OnComplete(currentUser);//Success
+                            }
+
+                            @Override
+                            public void OnError(Object res) {
+                               Log.d("TAG","Error Update User Profile");
+                                currentUser.delete();
+                                callbackRegisterInteface.OnError("Error Update User Profile");
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void fail() {
+                        Log.d("TAG","Error Uploading Image");
+                        currentUser.delete();
+                        callbackRegisterInteface.OnError("Error Uploading Image");
+                    }
+                });
+            }
+            @Override
+            public void OnError(String exception) {
+                callbackRegisterInteface.OnError(exception);
+            }
+        });
     }
 
     public void  AddStory(Story story, final ModelFirebase.CallBackGeneric callBackGeneric)
@@ -95,8 +149,6 @@ import java.util.List;
 
 
     }
-
-
 
     public void saveImage(final Bitmap imageBmp, final String name, final SaveImageListener listener) {
 

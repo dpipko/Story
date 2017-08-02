@@ -17,7 +17,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 import katzpipko.com.story.Model.Model;
 import katzpipko.com.story.Model.ModelFirebase;
+import katzpipko.com.story.Model.ModelSql;
 import katzpipko.com.story.Model.User;
+import katzpipko.com.story.Model.UserSql;
 
 import static katzpipko.com.story.CreateStory.REQUEST_IMAGE_CAPTURE;
 
@@ -104,66 +106,20 @@ public class RegisterActivity extends Activity {
 
 
 
-                    Model.instace.Register(newUser, password.getText().toString(), new ModelFirebase.CallbackRegisterInteface() {
+                    Model.instace.Register(newUser, password.getText().toString(),imageBitmap, new ModelFirebase.CallbackRegisterInteface() {
                         @Override
                         public void OnComplete(final FirebaseUser currentUser) {
-
-                            Log.d("TAG","Success = " + currentUser.getUid());
-                            String name = currentUser.getUid();
-                            Model.instace.saveImage(imageBitmap, name, "profileImages", new Model.SaveImageListener() {
-                                @Override
-                                public void complete(String url) {
-
-                                    newUser.setProfileImage(url);
-                                    newUser.setUid(currentUser.getUid());
-
-                                    Model.instace.UpdateUserProfile(newUser, new ModelFirebase.CallBackGeneric() {
-                                        @Override
-                                        public void OnComplete(Object res) {
-                                            Model.instace.setUserData(newUser);
-                                            Log.d("TAG","Register + Upload Image + Update profile Sucess");
-
-                                            Intent intent = new Intent(currentView.getContext(), MainStory.class);
-                                            startActivity(intent);
-                                            finish();
-                                        }
-
-                                        @Override
-                                        public void OnError(Object res) {
-                                            Model.instace.utils.Alert(currentView.getContext(),"Error Update User Profile","Server Error");
-
-                                            registerButton.setVisibility(View.VISIBLE);
-                                            mainProgress.setVisibility(View.GONE);
-
-                                            currentUser.delete();
-
-                                        }
-                                    });
-
-                                }
-
-                                @Override
-                                public void fail() {
-
-                                    mainProgress.setVisibility(View.GONE);
-                                    registerButton.setVisibility(View.VISIBLE);
-
-                                    Model.instace.utils.Alert(currentView.getContext(),"Error Uploading Image","Info Error");
-                                    currentUser.delete();
-                                }
-
-                            });
+                            Intent intent = new Intent(currentView.getContext(), MainStory.class);
+                            startActivity(intent);
+                            finish();
                         }
-
                         @Override
                         public void OnError(String exception) {
                             mainProgress.setVisibility(View.GONE);
                             registerButton.setVisibility(View.VISIBLE);
-
                             Model.instace.utils.Alert(currentView.getContext(),exception,"Server Error");
-                             }
+                        }
                     });
-
 
                 }
 

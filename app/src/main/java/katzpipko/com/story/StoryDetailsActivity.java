@@ -1,8 +1,8 @@
 package katzpipko.com.story;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,12 +13,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.security.PrivateKey;
 import java.sql.Timestamp;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
 
 import katzpipko.com.story.Model.Model;
 import katzpipko.com.story.Model.ModelFirebase;

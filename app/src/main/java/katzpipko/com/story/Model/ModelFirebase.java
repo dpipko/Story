@@ -250,10 +250,7 @@ public class ModelFirebase {
 
     }
 
-    public void  GetAllSortied(CallBackAllStoriesInterface callBackAllStoriesInterface)
-    {
 
-    }
 
     public void GetAllStoreisAndObserve(final GetAllStoriesAndObserveCallback callback) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();

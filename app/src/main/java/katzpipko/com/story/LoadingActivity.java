@@ -3,13 +3,9 @@ package katzpipko.com.story;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowManager;
 
 import katzpipko.com.story.Model.Model;
 import katzpipko.com.story.Model.User;
-
-import static java.security.AccessController.getContext;
 
 public class LoadingActivity extends Activity {
 

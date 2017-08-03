@@ -9,10 +9,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 import katzpipko.com.story.Model.Story;
 import katzpipko.com.story.StoryFragment.OnListFragmentInteractionListener;
-
-import java.util.List;
 
 public class MyStoryItemRecyclerViewAdapter extends RecyclerView.Adapter<MyStoryItemRecyclerViewAdapter.ViewHolder> {
 

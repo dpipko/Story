@@ -1,7 +1,6 @@
 package katzpipko.com.story.Model;
 
 import java.io.Serializable;
-import java.util.Comparator;
 
 /**
  * Created by User on 2017-07-26.
